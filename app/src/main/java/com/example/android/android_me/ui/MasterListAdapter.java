@@ -23,9 +23,13 @@ import android.view.ViewGroup;
 import android.widget.BaseAdapter;
 import android.widget.ImageView;
 import android.widget.TextView;
+import com.example.android.android_me.R;
 
 
 import com.example.android.android_me.model.Receipt;
+import com.squareup.picasso.Picasso;
+
+import org.w3c.dom.Text;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -71,6 +75,13 @@ public class MasterListAdapter extends RecyclerView.Adapter<MasterListAdapter.Re
 
     @Override
     public void onBindViewHolder(ReceiptCardViewHolder holder, int position) {
+        Context context = holder.receiptTextViewTitle.getContext();
+
+        Context imageContext = holder.receiptImageView.getContext();
+
+        Picasso.with(imageContext)
+                .load(mReceipts.get(position).getImage())
+                .into(holder.receiptImageView);
 
     }
 
@@ -88,34 +99,30 @@ public class MasterListAdapter extends RecyclerView.Adapter<MasterListAdapter.Re
      * Creates a new ImageView for each item referenced by the adapter
      */
     public View getView(final int position, View convertView, ViewGroup parent) {
-        ImageView imageView;
+        TextView textViewTitle;
         if (convertView == null) {
             // If the view is not recycled, this creates a new ImageView to hold an image
-            imageView = new ImageView(mContext);
-            // Define the layout parameters
-            imageView.setAdjustViewBounds(true);
-            imageView.setScaleType(ImageView.ScaleType.CENTER_CROP);
-            imageView.setPadding(8, 8, 8, 8);
+            textViewTitle = new TextView(mContext);
+
         } else {
-            imageView = (ImageView) convertView;
+            textViewTitle = (TextView) convertView;
         }
 
         // Set the image resource and return the newly created ImageView
 //        imageView.setImageResource(mReceipts.get(position));
-        return imageView;
+        return textViewTitle;
     }
     class ReceiptCardViewHolder extends RecyclerView.ViewHolder
             implements View.OnClickListener {
 
-        TextView listItemNumberView;
-        TextView viewHolderIndex;
-        ImageView movieImageView;
+        TextView receiptTextViewTitle;
+        ImageView receiptImageView;
 
 
         public ReceiptCardViewHolder(View itemView) {
             super(itemView);
-//            movieImageView = (ImageView) itemView.findViewById(R.id.image_iv);
-//            itemView.setOnClickListener(this);
+            receiptTextViewTitle = (TextView) itemView.findViewById(R.id.receipt_title);
+            itemView.setOnClickListener(this);
         }
 
 

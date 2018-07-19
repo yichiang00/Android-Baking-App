@@ -82,7 +82,6 @@ public class MasterListFragment extends Fragment {
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
-//        receipts.add(new Receipt());
         final View rootView = inflater.inflate(R.layout.fragment_master_list, container, false);
         mRecyclerView = (RecyclerView) rootView.findViewById(R.id.images_grid_view);
         mLayoutManager =
@@ -90,32 +89,43 @@ public class MasterListFragment extends Fragment {
         mRecyclerView.setLayoutManager(mLayoutManager);
 
         mRecyclerView.setHasFixedSize(true);
-        mAdapter = new MasterListAdapter( getActivity(), receipts);
-        mRecyclerView.setAdapter(mAdapter);
-//
-//        new ReceiptQueryTask(mAdapter).execute();
 
-        // Get a reference to the GridView in the fragment_master_list xml layout file
-//        GridView gridView = (GridView) rootView.findViewById(R.id.images_grid_view);
-//
-//        // Create the adapter
-//        // This adapter takes in the context and an ArrayList of ALL the image resources to display
-//        MasterListAdapter mAdapter = new MasterListAdapter(getContext(), AndroidImageAssets.getAll());
-//
-//        // Set the adapter on the GridView
-//        gridView.setAdapter(mAdapter);
-//
-//        // Set a click listener on the gridView and trigger the callback onImageSelected when an item is clicked
-//        gridView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
-//            @Override
-//            public void onItemClick(AdapterView<?> adapterView, View view, int position, long l) {
-//                // Trigger the callback method and pass in the position that was clicked
-//                mCallback.onImageSelected(position);
-//            }
-//        });
 
+
+        methodThatStartsTheAsyncTask();
         // Return the root view
         return rootView;
     }
+    /* Skipping most code and I will only show you the most essential. */
+    private void methodThatStartsTheAsyncTask()
+    {
+        ReceiptQueryTask testAsyncTask = new ReceiptQueryTask(new FragmentCallback() {
 
+            @Override
+            public void onTaskDone() {
+                methodThatDoesSomethingWhenTaskIsDone();
+            }
+        });
+
+        testAsyncTask.execute();
+
+//        testAsyncTask.execute(NetworkUtils.RECEIPT_URL);
+    }
+
+    private void methodThatDoesSomethingWhenTaskIsDone()
+    {
+        /* Magic! */
+        ArrayList r = new ArrayList<Receipt>();
+        Receipt t = new Receipt();
+        t.setName("Receipt One");
+        t.setImage("https://i.stack.imgur.com/1PBvA.jpg?s=32&g=1");
+        r.add(t);
+        mAdapter = new MasterListAdapter( getActivity(), r);
+        mAdapter.setReceiptItems(r);
+        mRecyclerView.setAdapter(mAdapter);
+    }
+
+    public interface FragmentCallback {
+        public void onTaskDone();
+    }
 }
