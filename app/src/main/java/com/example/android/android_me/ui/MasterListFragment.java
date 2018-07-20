@@ -20,6 +20,7 @@ import android.content.Context;
 import android.os.AsyncTask;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
+import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.StaggeredGridLayoutManager;
 import android.view.LayoutInflater;
@@ -86,17 +87,21 @@ public class MasterListFragment extends Fragment {
         mRecyclerView = (RecyclerView) rootView.findViewById(R.id.images_grid_view);
         mLayoutManager =
                 new StaggeredGridLayoutManager(2, StaggeredGridLayoutManager.VERTICAL);
+
         mRecyclerView.setLayoutManager(mLayoutManager);
-
         mRecyclerView.setHasFixedSize(true);
-        mRecyclerView.setAdapter(mAdapter);
 
+        mAdapter= new MasterListAdapter(getActivity());
+//        mRecyclerView.setAdapter(mAdapter);
+        mRecyclerView.setAdapter(mAdapter);
+        mRecyclerView.setLayoutManager(new LinearLayoutManager(getActivity()));
 
 
         methodThatStartsTheAsyncTask();
         // Return the root view
         return rootView;
     }
+
     /* Skipping most code and I will only show you the most essential. */
     private void methodThatStartsTheAsyncTask()
     {
@@ -106,6 +111,7 @@ public class MasterListFragment extends Fragment {
             @Override
             public void onTaskDone(ArrayList<Receipt> r) {
                 methodThatDoesSomethingWhenTaskIsDone(r);
+
             }
         });
 
@@ -121,11 +127,7 @@ public class MasterListFragment extends Fragment {
         {
             r = new ArrayList<Receipt>();
         }
-        Receipt t = new Receipt();
-        t.setName("Receipt One");
-        t.setImage("https://i.stack.imgur.com/1PBvA.jpg?s=32&g=1");
-        r.add(t);
-        mAdapter = new MasterListAdapter( getActivity(), r);
+
         mAdapter.setReceiptItems(r);
     }
 

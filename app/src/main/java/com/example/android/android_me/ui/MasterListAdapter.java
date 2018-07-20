@@ -18,6 +18,7 @@ package com.example.android.android_me.ui;
 
 import android.content.Context;
 import android.support.v7.widget.RecyclerView;
+import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.BaseAdapter;
@@ -43,11 +44,9 @@ public class MasterListAdapter extends RecyclerView.Adapter<MasterListAdapter.Re
 
     /**
      * Constructor method
-     * @param receipts The list of images to display
      */
-    public MasterListAdapter(Context context, ArrayList<Receipt> receipts) {
+    public MasterListAdapter(Context context) {
         mContext = context;
-        mReceipts = receipts;
     }
     public void setReceiptItems(ArrayList<Receipt> receiptList) {
         mReceipts = receiptList;
@@ -65,13 +64,26 @@ public class MasterListAdapter extends RecyclerView.Adapter<MasterListAdapter.Re
 //    public Object getItem(int i) {
 //        return null;
 //    }
-
     @Override
-    public ReceiptCardViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
-        View view = new ImageView(parent.getContext());
-        ReceiptCardViewHolder viewHolder = new ReceiptCardViewHolder(view);
-        return viewHolder;
+    public ReceiptCardViewHolder onCreateViewHolder(ViewGroup viewGroup, int viewType) {
+        Context context = viewGroup.getContext();
+        int layoutIdForListItem = R.layout.receipt_list_item;
+        LayoutInflater inflater = LayoutInflater.from(context);
+        boolean shouldAttachToParentImmediately = false;
+
+        View view = inflater.inflate(layoutIdForListItem, viewGroup, shouldAttachToParentImmediately);
+
+        return new ReceiptCardViewHolder(view);
     }
+
+//    @Override
+//    public ReceiptCardViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
+//        View view = new ImageView(parent.getContext());
+//
+//
+//        ReceiptCardViewHolder viewHolder = new ReceiptCardViewHolder(view);
+//        return viewHolder;
+//    }
 
     @Override
     public void onBindViewHolder(ReceiptCardViewHolder holder, int position) {
