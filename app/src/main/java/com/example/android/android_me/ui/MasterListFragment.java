@@ -89,6 +89,7 @@ public class MasterListFragment extends Fragment {
         mRecyclerView.setLayoutManager(mLayoutManager);
 
         mRecyclerView.setHasFixedSize(true);
+        mRecyclerView.setAdapter(mAdapter);
 
 
 
@@ -99,33 +100,36 @@ public class MasterListFragment extends Fragment {
     /* Skipping most code and I will only show you the most essential. */
     private void methodThatStartsTheAsyncTask()
     {
+        URL searchURL = NetworkUtils.buildUrl(NetworkUtils.RECEIPT_URL);
         ReceiptQueryTask testAsyncTask = new ReceiptQueryTask(new FragmentCallback() {
 
             @Override
-            public void onTaskDone() {
-                methodThatDoesSomethingWhenTaskIsDone();
+            public void onTaskDone(ArrayList<Receipt> r) {
+                methodThatDoesSomethingWhenTaskIsDone(r);
             }
         });
 
-        testAsyncTask.execute();
+        testAsyncTask.execute(searchURL);
 
 //        testAsyncTask.execute(NetworkUtils.RECEIPT_URL);
     }
 
-    private void methodThatDoesSomethingWhenTaskIsDone()
+    private void methodThatDoesSomethingWhenTaskIsDone(ArrayList<Receipt> r)
     {
         /* Magic! */
-        ArrayList r = new ArrayList<Receipt>();
+        if(r == null)
+        {
+            r = new ArrayList<Receipt>();
+        }
         Receipt t = new Receipt();
         t.setName("Receipt One");
         t.setImage("https://i.stack.imgur.com/1PBvA.jpg?s=32&g=1");
         r.add(t);
         mAdapter = new MasterListAdapter( getActivity(), r);
         mAdapter.setReceiptItems(r);
-        mRecyclerView.setAdapter(mAdapter);
     }
 
     public interface FragmentCallback {
-        public void onTaskDone();
+        public void onTaskDone(ArrayList<Receipt> r);
     }
 }

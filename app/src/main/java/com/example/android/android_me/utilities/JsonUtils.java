@@ -1,5 +1,7 @@
 package com.example.android.android_me.utilities;
 
+import android.util.Log;
+
 import com.example.android.android_me.model.Receipt;
 import com.google.gson.Gson;
 import com.google.gson.reflect.TypeToken;
@@ -16,7 +18,9 @@ public class JsonUtils {
             ArrayList<Receipt> data = gson3.fromJson(json, listType);
 
             return data;
-        } catch (Exception e) {
+        }
+        catch (Exception e)
+        {
             // Do something to recover ... or kill the app.
         }
         return null;
