@@ -48,7 +48,7 @@ public class MasterListFragment extends Fragment {
     // Define a new interface OnImageClickListener that triggers a callback in the host activity
     OnImageClickListener mCallback;
     private RecyclerView mRecyclerView;
-    public RecyclerView.LayoutManager  mLayoutManager;
+    public LinearLayoutManager mLayoutManager;
     public MasterListAdapter mAdapter;
     ArrayList<Receipt> receipts =  new ArrayList<Receipt>();
     // OnImageClickListener interface, calls a method in the host activity named onImageSelected
@@ -84,19 +84,16 @@ public class MasterListFragment extends Fragment {
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         final View rootView = inflater.inflate(R.layout.fragment_master_list, container, false);
-        mRecyclerView = (RecyclerView) rootView.findViewById(R.id.images_grid_view);
+        mRecyclerView = (RecyclerView) rootView.findViewById(R.id.rv_numbers);
         mLayoutManager =
-                new StaggeredGridLayoutManager(2, StaggeredGridLayoutManager.VERTICAL);
-
+                new LinearLayoutManager(getActivity());
         mRecyclerView.setLayoutManager(mLayoutManager);
+
         mRecyclerView.setHasFixedSize(true);
+        mAdapter = new MasterListAdapter();
 
-        mAdapter= new MasterListAdapter(getActivity());
-//        mRecyclerView.setAdapter(mAdapter);
         mRecyclerView.setAdapter(mAdapter);
-        mRecyclerView.setLayoutManager(new LinearLayoutManager(getActivity()));
-
-
+        mAdapter.notifyDataSetChanged();
         methodThatStartsTheAsyncTask();
         // Return the root view
         return rootView;
@@ -127,8 +124,10 @@ public class MasterListFragment extends Fragment {
         {
             r = new ArrayList<Receipt>();
         }
+        mRecyclerView.invalidate();
 
-        mAdapter.setReceiptItems(r);
+        mAdapter.setMovieItems(r);
+        mAdapter.notifyDataSetChanged();
     }
 
     public interface FragmentCallback {

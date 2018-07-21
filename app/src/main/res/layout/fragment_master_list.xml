@@ -15,40 +15,26 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:orientation="vertical">
-    <TextView
-        android:text="Master List"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        />
 
-    <!--<GridView-->
-        <!--xmlns:android="http://schemas.android.com/apk/res/android"-->
-        <!--android:id="@+id/images_grid_view"-->
-        <!--android:layout_width="match_parent"-->
-        <!--android:layout_height="0dp"-->
-        <!--android:layout_weight="7"-->
-        <!--android:adjustViewBounds="true"-->
-        <!--android:columnWidth="180dp"-->
-        <!--android:gravity="center"-->
-        <!--android:horizontalSpacing="8dp"-->
-        <!--android:numColumns="3"-->
-        <!--android:padding="16dp"-->
-        <!--android:stretchMode="columnWidth"-->
-        <!--android:verticalSpacing="8dp">-->
-    <!--</GridView>-->
+    <!--<TextView-->
+        <!--android:text="Master List"-->
+        <!--android:layout_width="wrap_content"-->
+        <!--android:layout_height="wrap_content"-->
+        <!--/>-->
+
+
     <android.support.v7.widget.RecyclerView
-        android:id="@+id/images_grid_view"
+    android:id="@+id/rv_numbers"
         android:layout_width="match_parent"
         android:layout_height="match_parent"/>
 
-    <!-- The "Next" button -->
-    <Button
-        android:id="@+id/next_button"
-        android:layout_width="match_parent"
-        android:layout_height="0dp"
-        android:layout_gravity="center_horizontal"
-        android:layout_weight="1"
-        android:text="Next" />
+    <!--<Button-->
+        <!--android:id="@+id/next_button"-->
+        <!--android:layout_width="match_parent"-->
+        <!--android:layout_height="0dp"-->
+        <!--android:layout_gravity="center_horizontal"-->
+        <!--android:layout_weight="1"-->
+        <!--android:text="Next" />-->
 
 
 </LinearLayout>
