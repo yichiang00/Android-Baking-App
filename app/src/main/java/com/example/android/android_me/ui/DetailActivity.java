@@ -27,6 +27,7 @@ import com.example.android.android_me.R;
 import com.example.android.android_me.data.AndroidImageAssets;
 import com.example.android.android_me.model.Receipt;
 import com.example.android.android_me.model.Step;
+import com.google.android.exoplayer2.upstream.DefaultDataSourceFactory;
 import com.squareup.picasso.Picasso;
 
 import java.util.ArrayList;
@@ -45,7 +46,7 @@ public class DetailActivity extends AppCompatActivity implements StepListFragmen
         setContentView(R.layout.activity_detail);
 
             // Only create new fragments when there is no previously saved state
-            if(savedInstanceState == null) {
+        if(savedInstanceState == null) {
 
                 // Retrieve list index values that were sent through an intent; use them to display the desired Android-Me body part image
                 // Use setListindex(int index) to set the list index for all BodyPartFragments

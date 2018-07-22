@@ -1,39 +1,37 @@
 <?xml version="1.0" encoding="utf-8"?>
 
 
-<!-- GridView that displays AndroidMe images -->
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:orientation="vertical">
 
-    <!--Media-->
     <com.google.android.exoplayer2.ui.SimpleExoPlayerView
         android:id="@+id/playerView"
-        android:focusable="true"
         android:layout_width="match_parent"
-        android:layout_height="match_parent"/>
-    <!--Step Detail-->
+        android:layout_height="wrap_content"/>
 
 
     <TextView
 
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_marginBottom="8dp"
         android:id="@+id/receipt_step_description"
-        android:textColor="#000"
-        android:textSize="18sp"
-        android:adjustViewBounds="true"/>
+        android:layout_width="match_parent"
 
-    <!-- The "Next" button -->
+        android:layout_height="wrap_content"
+        android:text="Description"
+        android:textColor="#000"
+        android:textSize="18sp" />
+
+    <Button
+        android:id="@+id/prev_button"
+        android:text="Prev"
+        android:layout_width="match_parent"
+        android:layout_height="40dp" />
     <Button
         android:id="@+id/next_button"
+        android:text="Next"
         android:layout_width="match_parent"
-        android:layout_height="0dp"
-        android:layout_gravity="center_horizontal"
-        android:layout_weight="1"
-        android:text="Next" />
+        android:layout_height="40dp" />
 
 
 </LinearLayout>
