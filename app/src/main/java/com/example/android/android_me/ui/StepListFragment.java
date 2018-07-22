@@ -101,7 +101,13 @@ public class StepListFragment extends Fragment {
         // Set the adapter on the GridView
         mListView.setAdapter(mAdapter);
 
-
+        mListView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+            @Override
+            public void onItemClick(AdapterView<?> adapterView, View view, int position, long l) {
+                // Trigger the callback method and pass in the position that was clicked
+                mCallback.onImageSelected(position);
+            }
+        });
 
         return rootView;
     }
