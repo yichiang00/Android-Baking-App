@@ -35,7 +35,7 @@ public class StepListAdapter extends BaseAdapter {
         mContext = context;
         mImageIds = imageIds;
     }
-    public void setMovieItems(ArrayList<Step> moviesList) {
+    public void setItems(ArrayList<Step> moviesList) {
         mImageIds = moviesList;
         notifyDataSetChanged();
     }

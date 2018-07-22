@@ -29,38 +29,25 @@ import android.widget.GridView;
 import android.widget.ListView;
 
 import com.example.android.android_me.R;
-import com.example.android.android_me.data.AndroidImageAssets;
-import com.example.android.android_me.data.ReceiptQueryTask;
-import com.example.android.android_me.model.Receipt;
 import com.example.android.android_me.model.Step;
-import com.example.android.android_me.utilities.NetworkUtils;
-
-import java.net.URL;
 import java.util.ArrayList;
 
 
-// This fragment displays all of the AndroidMe images in one large list
-// The list appears as a grid of images
 public class StepListFragment extends Fragment {
 
-    // Define a new interface OnImageClickListener that triggers a callback in the host activity
     StepListFragment.OnImageClickListener mCallback;
     private GridView mGridView;
     public ListView mListView;
     public StepListAdapter mAdapter;
     ArrayList<Step> steps =  new ArrayList<Step>();
-    // OnImageClickListener interface, calls a method in the host activity named onImageSelected
     public interface OnImageClickListener {
         void onImageSelected(int position);
     }
 
-    // Override onAttach to make sure that the container activity has implemented the callback
     @Override
     public void onAttach(Context context) {
         super.onAttach(context);
 
-        // This makes sure that the host activity has implemented the callback interface
-        // If not, it throws an exception
         try {
             mCallback = (OnImageClickListener) context;
         } catch (ClassCastException e) {
@@ -70,24 +57,9 @@ public class StepListFragment extends Fragment {
     }
 
 
-    // Mandatory empty constructor
     public StepListFragment() {
     }
 
-//    public void setData(ArrayList<Step> sSteps){
-//        if(sSteps != null)
-//        {
-//            steps = sSteps;
-//            mAdapter.setMovieItems(steps);
-//        }else
-//        {
-//            steps = new ArrayList<Step>();
-//        }
-//
-//
-//    }
-
-    // Inflates the GridView of all AndroidMe images
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
@@ -104,7 +76,6 @@ public class StepListFragment extends Fragment {
         mListView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
             public void onItemClick(AdapterView<?> adapterView, View view, int position, long l) {
-                // Trigger the callback method and pass in the position that was clicked
                 mCallback.onImageSelected(position);
             }
         });

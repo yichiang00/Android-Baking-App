@@ -23,13 +23,11 @@ import android.support.v4.app.FragmentManager;
 import android.support.v7.app.AppCompatActivity;
 
 import com.example.android.android_me.R;
-import com.example.android.android_me.data.AndroidImageAssets;
 import com.example.android.android_me.model.Receipt;
 import com.example.android.android_me.model.Step;
 
 import java.util.ArrayList;
 
-// This activity will display a custom Android image composed of three body parts: head, body, and legs
 public class StepDetailActivity extends AppCompatActivity implements StepListFragment.OnImageClickListener{
     public static final String STEP_DATA = "sStep";
     public static final String INDEX_STEP_DATA = "sStep_index";
@@ -44,14 +42,8 @@ public class StepDetailActivity extends AppCompatActivity implements StepListFra
             mReceipt = (Receipt) getIntent().getSerializableExtra(DetailActivity.RECEIPT_DATA);
             steps = (ArrayList<Step>) getIntent().getSerializableExtra(STEP_DATA);
             selectedIndex = getIntent().getIntExtra(INDEX_STEP_DATA, 0);
-            // Only create new fragments when there is no previously saved state
             if(savedInstanceState == null) {
 
-                // Retrieve list index values that were sent through an intent; use them to display the desired Android-Me body part image
-                // Use setListindex(int index) to set the list index for all BodyPartFragments
-
-                // Create a new head BodyPartFragment
-                ReceiptNameCardFragment headFragment = new ReceiptNameCardFragment();
 
                 ArrayList<String> allTitles =new ArrayList<String>();
 

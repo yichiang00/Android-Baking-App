@@ -23,22 +23,14 @@ import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
-import android.support.v7.widget.StaggeredGridLayoutManager;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.AdapterView;
-import android.widget.Button;
-import android.widget.GridView;
 
 import com.example.android.android_me.R;
-import com.example.android.android_me.data.AndroidImageAssets;
 import com.example.android.android_me.data.ReceiptQueryTask;
 import com.example.android.android_me.model.Receipt;
-import com.example.android.android_me.utilities.JsonUtils;
 import com.example.android.android_me.utilities.NetworkUtils;
-
-import java.io.IOException;
 import java.net.URL;
 import java.util.ArrayList;
 
@@ -130,7 +122,7 @@ public class MasterListFragment extends Fragment {
         }
         mRecyclerView.invalidate();
 
-        mAdapter.setMovieItems(r);
+        mAdapter.setItems(r);
         mAdapter.notifyDataSetChanged();
     }
 

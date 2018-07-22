@@ -6,21 +6,7 @@
     android:layout_height="wrap_content"
     android:orientation="vertical"
     android:padding="2dp">
-    <!--<android.support.v7.widget.RecyclerView-->
-        <!--android:id="@+id/rv_numbers"-->
-        <!--android:layout_width="0dp"-->
-        <!--android:layout_height="0dp"-->
-        <!--app:layout_constraintBottom_toBottomOf="parent"-->
-        <!--app:layout_constraintEnd_toEndOf="parent"-->
-        <!--app:layout_constraintStart_toStartOf="parent"-->
-        <!--app:layout_constraintTop_toTopOf="parent" />-->
 
-    <!-- The static MasterListFragment -->
-    <!--<fragment-->
-        <!--android:id="@+id/master_list_step_fragment"-->
-        <!--android:name="com.example.android.android_me.ui.StepListFragment"-->
-        <!--android:layout_width="400dp"-->
-        <!--android:layout_height="match_parent" />-->
     <FrameLayout android:id="@+id/master_list_step_fragment"
         android:layout_width="match_parent"
         android:layout_height="match_parent"/>

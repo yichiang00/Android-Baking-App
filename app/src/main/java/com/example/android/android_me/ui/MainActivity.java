@@ -16,38 +16,12 @@
 
 package com.example.android.android_me.ui;
 
-import android.app.FragmentTransaction;
-import android.content.Intent;
-import android.os.AsyncTask;
 import android.os.Bundle;
-import android.support.v4.app.FragmentManager;
 import android.support.v7.app.AppCompatActivity;
-import android.support.v7.widget.LinearLayoutManager;
-import android.support.v7.widget.RecyclerView;
-import android.support.v7.widget.StaggeredGridLayoutManager;
-import android.view.View;
-import android.widget.ArrayAdapter;
-import android.widget.Button;
-import android.widget.GridView;
-import android.widget.Toast;
-import com.example.android.android_me.data.ReceiptQueryTask;
 import com.example.android.android_me.R;
-import com.example.android.android_me.data.AndroidImageAssets;
-import com.example.android.android_me.model.Receipt;
-import com.example.android.android_me.utilities.NetworkUtils;
-
-import java.net.URL;
-import java.util.ArrayList;
-
-// This activity is responsible for displaying the master list of all images
-// Implement the MasterListFragment callback, OnImageClickListener
 public class MainActivity extends AppCompatActivity implements MasterListFragment.OnImageClickListener{
 
 
-//    private FragmentManager manager;
-//    private RecyclerView mRecyclerView;
-//    public StaggeredGridLayoutManager  mLayoutManager;
-//    public MasterListAdapter mAdapter;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);

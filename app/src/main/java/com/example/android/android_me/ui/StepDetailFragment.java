@@ -16,25 +16,15 @@
 
 package com.example.android.android_me.ui;
 
-import android.app.NotificationManager;
-import android.app.PendingIntent;
 import android.content.Context;
-import android.content.Intent;
 import android.net.Uri;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
-import android.support.v4.app.NotificationCompat;
-import android.support.v4.media.session.MediaButtonReceiver;
 import android.support.v4.media.session.MediaSessionCompat;
 import android.support.v4.media.session.PlaybackStateCompat;
-import android.util.Log;
 import android.view.LayoutInflater;
-import android.view.Surface;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.GridView;
-import android.widget.ImageView;
-import android.widget.ListView;
 import android.widget.TextView;
 
 import com.example.android.android_me.R;
@@ -118,8 +108,6 @@ public class StepDetailFragment extends Fragment implements ExoPlayer.EventListe
     public StepDetailFragment() {
     }
 
-
-    // Inflates the GridView of all AndroidMe images
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
@@ -237,143 +225,7 @@ public class StepDetailFragment extends Fragment implements ExoPlayer.EventListe
      Source:  https://raw.githubusercontent.com/yusufcakmak/ExoPlayerSample/master/app/src/main/java/com/yusufcakmak/exoplayersample/VideoPlayerActivity.java
      https://github.com/ayalus/ExoPlayer-2-Example/blob/master/ExoPlayer2Example/app/src/main/java/com/ayalus/exoplayer2example/MainActivity.java
      */
-//    private void initializePlayer(Uri uri) {
-//
-//
-//
-//        // 1. Create a default TrackSelector
-//        bandwidthMeter = new DefaultBandwidthMeter();
-//
-//        TrackSelection.Factory videoTrackSelectionFactory =
-//                new AdaptiveVideoTrackSelection.Factory(bandwidthMeter);
-//
-//        trackSelector = new DefaultTrackSelector(videoTrackSelectionFactory);
-//        // 2. Create a default LoadControl
-//        LoadControl loadControl = new DefaultLoadControl();
-//        // 3. Create the player
-//        mPlayerView = new SimpleExoPlayerView(getContext());
-//        mPlayerView = (SimpleExoPlayerView) rootView.findViewById(R.id.playerView);
-//        mExoPlayer = ExoPlayerFactory.newSimpleInstance(this.getContext(), trackSelector, loadControl);
-//        //Set media controller
-//        mPlayerView.setUseController(true);
-//        mPlayerView.requestFocus();
-//        // Bind the player to the view.
-//        mPlayerView.setPlayer(mExoPlayer);
-//
-//        mExoPlayer.setPlayWhenReady(shouldAutoPlay);
-//
-//
-////        MediaSource mediaSource = new ExtractorMediaSource(uri,
-////                mediaDataSourceFactory, extractorsFactory, null, null);
-////
-////        mExoPlayer.prepare(mediaSource);
-//
-//        //Measures bandwidth during playback. Can be null if not required.
-//        DefaultBandwidthMeter bandwidthMeterA = new DefaultBandwidthMeter();
-//        //Produces DataSource instances through which media data is loaded.
-//        String userAgent = Util.getUserAgent(getContext(), "bakingAPP");
-//
-//        DefaultDataSourceFactory dataSourceFactory = new DefaultDataSourceFactory(getContext(),userAgent , bandwidthMeterA);
-//        //Produces Extractor instances for parsing the media data.
-//        ExtractorsFactory extractorsFactory = new DefaultExtractorsFactory();
-//
-//
-////FOR LIVESTREAM LINK:
-//        MediaSource videoSource = new HlsMediaSource(uri, dataSourceFactory, 1, null, null);
-//        final LoopingMediaSource loopingSource = new LoopingMediaSource(videoSource);
-//
-//// Prepare the player with the source.
-//        mExoPlayer.prepare(loopingSource);
-//
-//        mExoPlayer.addListener(new ExoPlayer.EventListener() {
-//            @Override
-//            public void onTimelineChanged(Timeline timeline, Object manifest) {
-//                Log.v(TAG, "Listener-onTimelineChanged...");
-//            }
-//
-//            @Override
-//            public void onTracksChanged(TrackGroupArray trackGroups, TrackSelectionArray trackSelections) {
-//                Log.v(TAG, "Listener-onTracksChanged...");
-//            }
-//
-//            @Override
-//            public void onLoadingChanged(boolean isLoading) {
-//                Log.v(TAG, "Listener-onLoadingChanged...isLoading:"+isLoading);
-//            }
-//
-//            @Override
-//            public void onPlayerStateChanged(boolean playWhenReady, int playbackState) {
-//                Log.v(TAG, "Listener-onPlayerStateChanged..." + playbackState);
-//            }
-//
-////            @Override
-////            public void onRepeatModeChanged(int repeatMode) {
-////                Log.v(TAG, "Listener-onRepeatModeChanged...");
-////            }
-//
-//            @Override
-//            public void onPlayerError(ExoPlaybackException error) {
-//                Log.v(TAG, "Listener-onPlayerError...");
-//                mExoPlayer.stop();
-//                mExoPlayer.prepare(loopingSource);
-//                mExoPlayer.setPlayWhenReady(true);
-//            }
-//
-//            @Override
-//            public void onPositionDiscontinuity() {
-//                Log.v(TAG, "Listener-onPositionDiscontinuity...");
-//            }
-//
-////            @Override
-////            public void onPlaybackParametersChanged(PlaybackParameters playbackParameters) {
-////                Log.v(TAG, "Listener-onPlaybackParametersChanged...");
-////            }
-//        });
-//
-//        mExoPlayer.setPlayWhenReady(true); //run file/link when ready to play.
-//        mExoPlayer.setVideoDebugListener(this); //for listening to resolution change and  outputing the resolution
-//    }
-//    @Override
-//    public void onVideoEnabled(DecoderCounters counters) {
-//
-//    }
-//
-//    @Override
-//    public void onVideoDecoderInitialized(String decoderName, long initializedTimestampMs, long initializationDurationMs) {
-//
-//    }
-//
-//    @Override
-//    public void onVideoInputFormatChanged(Format format) {
-//
-//    }
-//
-//    @Override
-//    public void onDroppedFrames(int count, long elapsedMs) {
-//
-//    }
-//
-//    @Override
-//    public void onVideoSizeChanged(int width, int height, int unappliedRotationDegrees, float pixelWidthHeightRatio) {
-//        Log.v(TAG, "onVideoSizeChanged ["  + " width: " + width + " height: " + height + "]");
-//    }
-//
-//    @Override
-//    public void onRenderedFirstFrame(Surface surface) {
-//
-//    }
-//
-//    @Override
-//    public void onVideoDisabled(DecoderCounters counters) {
-//
-//    }
-    /**
-            * Method that is called when the ExoPlayer state changes. Used to update the MediaSession
-     * PlayBackState to keep in sync, and post the media notification.
-     * @param playWhenReady true if ExoPlayer is playing, false if it's paused.
-            * @param playbackState int describing the state of ExoPlayer. Can be STATE_READY, STATE_IDLE,
-            *                      STATE_BUFFERING, or STATE_ENDED.
-            */
+
     @Override
     public void onPlayerStateChanged(boolean playWhenReady, int playbackState) {
         if((playbackState == ExoPlayer.STATE_READY) && playWhenReady){
@@ -384,7 +236,6 @@ public class StepDetailFragment extends Fragment implements ExoPlayer.EventListe
                     mExoPlayer.getCurrentPosition(), 1f);
         }
         mMediaSession.setPlaybackState(mStateBuilder.build());
-        //showNotification(mStateBuilder.build());
     }
 
     @Override

@@ -31,7 +31,7 @@ public class MasterListAdapter extends RecyclerView.Adapter<MasterListAdapter.Re
     }
 
 
-    public void setMovieItems(ArrayList<Receipt> moviesList) {
+    public void setItems(ArrayList<Receipt> moviesList) {
         mReceipts = moviesList;
         notifyDataSetChanged();
     }
