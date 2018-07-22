@@ -58,8 +58,6 @@ public class MainActivity extends AppCompatActivity implements MasterListFragmen
 
     public void onImageSelected(int position) {
         // Create a Toast that displays the position that was clicked
-        Toast.makeText(this, "Position clicked = " + position, Toast.LENGTH_SHORT).show();
-
 
     }
 

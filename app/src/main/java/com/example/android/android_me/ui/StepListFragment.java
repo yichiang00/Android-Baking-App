@@ -17,42 +17,38 @@
 package com.example.android.android_me.ui;
 
 import android.content.Context;
-import android.content.Intent;
-import android.os.AsyncTask;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
-import android.support.v7.widget.StaggeredGridLayoutManager;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.AdapterView;
-import android.widget.Button;
 import android.widget.GridView;
+import android.widget.ListView;
 
 import com.example.android.android_me.R;
 import com.example.android.android_me.data.AndroidImageAssets;
 import com.example.android.android_me.data.ReceiptQueryTask;
 import com.example.android.android_me.model.Receipt;
-import com.example.android.android_me.utilities.JsonUtils;
+import com.example.android.android_me.model.Step;
 import com.example.android.android_me.utilities.NetworkUtils;
 
-import java.io.IOException;
 import java.net.URL;
 import java.util.ArrayList;
 
 
 // This fragment displays all of the AndroidMe images in one large list
 // The list appears as a grid of images
-public class MasterListFragment extends Fragment {
+public class StepListFragment extends Fragment {
 
     // Define a new interface OnImageClickListener that triggers a callback in the host activity
-    OnImageClickListener mCallback;
-    private RecyclerView mRecyclerView;
-    public LinearLayoutManager mLayoutManager;
-    public MasterListAdapter mAdapter;
-    ArrayList<Receipt> receipts =  new ArrayList<Receipt>();
+    StepListFragment.OnImageClickListener mCallback;
+    private GridView mGridView;
+    public ListView mListView;
+    public StepListAdapter mAdapter;
+    ArrayList<Step> steps =  new ArrayList<Step>();
     // OnImageClickListener interface, calls a method in the host activity named onImageSelected
     public interface OnImageClickListener {
         void onImageSelected(int position);
@@ -75,66 +71,41 @@ public class MasterListFragment extends Fragment {
 
 
     // Mandatory empty constructor
-    public MasterListFragment() {
+    public StepListFragment() {
     }
 
-    public void setData(ArrayList<Receipt> sReceipts){
-        receipts = sReceipts;
-    }
+//    public void setData(ArrayList<Step> sSteps){
+//        if(sSteps != null)
+//        {
+//            steps = sSteps;
+//            mAdapter.setMovieItems(steps);
+//        }else
+//        {
+//            steps = new ArrayList<Step>();
+//        }
+//
+//
+//    }
+
     // Inflates the GridView of all AndroidMe images
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
-        final View rootView = inflater.inflate(R.layout.fragment_master_list, container, false);
-        mRecyclerView = (RecyclerView) rootView.findViewById(R.id.rv_numbers);
-        mLayoutManager =
-                new LinearLayoutManager(getActivity());
-        mRecyclerView.setLayoutManager(mLayoutManager);
 
-        mRecyclerView.setHasFixedSize(true);
-        mAdapter = new MasterListAdapter();
+        final View rootView = inflater.inflate(R.layout.fragment_master_step_list, container, false);
+        mListView = (ListView) rootView.findViewById(R.id.images_grid_view);
+        DetailActivity activity = (DetailActivity) getActivity();
+        steps = activity.getMyData();
+        mAdapter = new StepListAdapter(getContext(), steps);
 
-        mRecyclerView.setAdapter(mAdapter);
-        mAdapter.notifyDataSetChanged();
-        methodThatStartsTheAsyncTask();
-        // Return the root view
+        // Set the adapter on the GridView
+        mListView.setAdapter(mAdapter);
+
 
 
         return rootView;
     }
 
-    /* Skipping most code and I will only show you the most essential. */
-    private void methodThatStartsTheAsyncTask()
-    {
-        URL searchURL = NetworkUtils.buildUrl(NetworkUtils.RECEIPT_URL);
-        ReceiptQueryTask testAsyncTask = new ReceiptQueryTask(new FragmentCallback() {
 
-            @Override
-            public void onTaskDone(ArrayList<Receipt> r) {
-                methodThatDoesSomethingWhenTaskIsDone(r);
 
-            }
-        });
-
-        testAsyncTask.execute(searchURL);
-
-//        testAsyncTask.execute(NetworkUtils.RECEIPT_URL);
-    }
-
-    private void methodThatDoesSomethingWhenTaskIsDone(ArrayList<Receipt> r)
-    {
-        /* Magic! */
-        if(r == null)
-        {
-            r = new ArrayList<Receipt>();
-        }
-        mRecyclerView.invalidate();
-
-        mAdapter.setMovieItems(r);
-        mAdapter.notifyDataSetChanged();
-    }
-
-    public interface FragmentCallback {
-        public void onTaskDone(ArrayList<Receipt> r);
-    }
 }

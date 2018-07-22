@@ -1,8 +1,9 @@
 package com.example.android.android_me.model;
 
+import java.io.Serializable;
 import java.util.ArrayList;
 
-public class Receipt {
+public class Receipt implements Serializable{
     public int getId() {
         return id;
     }

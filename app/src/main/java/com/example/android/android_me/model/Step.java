@@ -1,6 +1,8 @@
 package com.example.android.android_me.model;
 
-public class Step {
+import java.io.Serializable;
+
+public class Step implements Serializable {
     public int getId() {
         return id;
     }
