@@ -110,7 +110,6 @@ public class MasterListFragment extends Fragment {
 
         testAsyncTask.execute(searchURL);
 
-//        testAsyncTask.execute(NetworkUtils.RECEIPT_URL);
     }
 
     private void methodThatDoesSomethingWhenTaskIsDone(ArrayList<Receipt> r)

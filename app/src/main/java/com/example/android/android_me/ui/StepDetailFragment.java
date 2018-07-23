@@ -106,7 +106,6 @@ public class StepDetailFragment extends Fragment implements ExoPlayer.EventListe
     }
 
 
-    // Mandatory empty constructor
     public StepDetailFragment() {
     }
 
