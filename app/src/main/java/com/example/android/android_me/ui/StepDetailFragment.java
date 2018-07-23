@@ -25,6 +25,7 @@ import android.support.v4.media.session.PlaybackStateCompat;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Button;
 import android.widget.TextView;
 
 import com.example.android.android_me.R;
@@ -72,6 +73,7 @@ public class StepDetailFragment extends Fragment implements ExoPlayer.EventListe
     private SimpleExoPlayerView mPlayerView;
     private static MediaSessionCompat mMediaSession;
     private PlaybackStateCompat.Builder mStateBuilder;
+    private boolean mTwoPane;
 
     private Timeline.Window window;
     private DataSource.Factory mediaDataSourceFactory;
@@ -113,11 +115,21 @@ public class StepDetailFragment extends Fragment implements ExoPlayer.EventListe
                              Bundle savedInstanceState) {
 
         rootView = inflater.inflate(R.layout.fragment_detail_step, container, false);
+        if(container.getRootView().findViewById(R.id.android_me_linear_layout) != null) {
+            mTwoPane = true;
 
+            //hide button
+            Button prevBtn = (Button) rootView.findViewById(R.id.prev_button);
+            prevBtn.setVisibility(View.GONE);
+            Button nextBtn = (Button) rootView.findViewById(R.id.next_button);
+            nextBtn.setVisibility(View.GONE);
+        }
 
         if(savedInstanceState != null) {
             mSteps = (ArrayList<Step>) savedInstanceState.getSerializable(STEP_ID_LIST);
             mListIndex = savedInstanceState.getInt(LIST_INDEX);
+        }else{
+
         }
         TextView descTextView = rootView.findViewById(R.id.receipt_step_description);
         descTextView.setText(mSteps.get(mListIndex).getDescription());

@@ -25,7 +25,7 @@ public class StepListAdapter extends BaseAdapter {
 
     // Keeps track of the context and list of images to display
     private Context mContext;
-    private ArrayList<Step> mImageIds;
+    private ArrayList<Step> mImageIds = new ArrayList<Step>();
 
     /**
      * Constructor method
@@ -45,7 +45,13 @@ public class StepListAdapter extends BaseAdapter {
      */
     @Override
     public int getCount() {
-        return mImageIds.size();
+        if(mImageIds != null)
+        {
+            return mImageIds.size();
+
+        }
+        return 0;
+
     }
 
     @Override

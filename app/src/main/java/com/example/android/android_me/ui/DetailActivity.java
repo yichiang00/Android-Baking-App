@@ -20,6 +20,8 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.support.v4.app.FragmentManager;
 import android.support.v7.app.AppCompatActivity;
+import android.view.View;
+import android.widget.Button;
 
 import com.example.android.android_me.R;
 import com.example.android.android_me.model.Receipt;
@@ -29,9 +31,9 @@ import java.util.ArrayList;
 public class DetailActivity extends AppCompatActivity implements StepListFragment.OnImageClickListener{
     public static final String RECEIPT_DATA = "cReceipt";
     private Receipt mReceipt = new Receipt();
-
+    private Integer selectedIndex = 0;
     private boolean mTwoPane;
-
+    StepDetailFragment mStepDetailFragment;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -60,14 +62,13 @@ public class DetailActivity extends AppCompatActivity implements StepListFragmen
 
         if(findViewById(R.id.android_me_linear_layout) != null) {
             mTwoPane = true;
-            headFragment.setImageIds(allTitles);
-
-            int headIndex = getIntent().getIntExtra("headIndex", 0);
-            headFragment.setListIndex(headIndex);
 
 
+            mStepDetailFragment = new StepDetailFragment();
+            mStepDetailFragment.setData(steps);
+            mStepDetailFragment.setListIndex(selectedIndex);
             fragmentManager.beginTransaction()
-                    .add(R.id.head_container, headFragment)
+                    .add(R.id.master_detail_step_fragment, mStepDetailFragment)
                     .commit();
         }
         StepListFragment stepListFragment = new StepListFragment();
@@ -90,6 +91,13 @@ public class DetailActivity extends AppCompatActivity implements StepListFragmen
     public void onImageSelected(int position) {
         if (mTwoPane) {
 
+            mStepDetailFragment = new StepDetailFragment();
+            mStepDetailFragment.setData(mReceipt.getSteps());
+            selectedIndex = position;
+            mStepDetailFragment.setListIndex(selectedIndex);
+            getSupportFragmentManager().beginTransaction()
+                    .replace(R.id.master_detail_step_fragment, mStepDetailFragment)
+                    .commit();
 
         } else {
             final Intent intent = new Intent(this, StepDetailActivity.class);
