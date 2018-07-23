@@ -30,12 +30,14 @@ import com.example.android.android_me.model.Step;
 
 import java.util.ArrayList;
 
-public class StepDetailActivity extends AppCompatActivity implements StepListFragment.OnImageClickListener{
+public class StepDetailActivity extends AppCompatActivity implements StepDetailFragment.OnImageClickListener{
     public static final String STEP_DATA = "sStep";
     public static final String INDEX_STEP_DATA = "sStep_index";
     private ArrayList<Step> steps = new ArrayList<Step>();
     private Integer selectedIndex = 0;
     private Receipt mReceipt;
+    FragmentManager mFragmentManager;
+    StepDetailFragment mStepListFragment;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -49,14 +51,14 @@ public class StepDetailActivity extends AppCompatActivity implements StepListFra
 
                 ArrayList<String> allTitles =new ArrayList<String>();
 
-                FragmentManager fragmentManager = getSupportFragmentManager();
+                mFragmentManager = getSupportFragmentManager();
 
 
-                StepDetailFragment stepListFragment = new StepDetailFragment();
-                stepListFragment.setData(steps);
-                stepListFragment.setListIndex(selectedIndex);
-                fragmentManager.beginTransaction()
-                        .add(R.id.master_detail_step_fragment, stepListFragment)
+                mStepListFragment = new StepDetailFragment();
+                mStepListFragment.setData(steps);
+                mStepListFragment.setListIndex(selectedIndex);
+                mFragmentManager.beginTransaction()
+                        .add(R.id.master_detail_step_fragment, mStepListFragment)
                         .commit();
 
 
@@ -66,13 +68,12 @@ public class StepDetailActivity extends AppCompatActivity implements StepListFra
 
     }
     public void onImageSelected(int position) {
-        FragmentManager fragmentManager = getSupportFragmentManager();
         selectedIndex = position;
-        StepDetailFragment stepListFragment = new StepDetailFragment();
-        stepListFragment.setData(steps);
-        stepListFragment.setListIndex(selectedIndex);
-        fragmentManager.beginTransaction()
-                .add(R.id.master_detail_step_fragment, stepListFragment)
+        mStepListFragment = new StepDetailFragment();
+        mStepListFragment.setData(steps);
+        mStepListFragment.setListIndex(selectedIndex);
+        getSupportFragmentManager().beginTransaction()
+                .replace(R.id.master_detail_step_fragment, mStepListFragment)
                 .commit();
     }
     @Override

@@ -99,6 +99,16 @@ public class StepDetailFragment extends Fragment implements ExoPlayer.EventListe
     public void onAttach(Context context) {
         super.onAttach(context);
 
+        // This makes sure that the host activity has implemented the callback interface
+        // If not, it throws an exception
+        try {
+            if(!mTwoPane){
+                mCallback = (StepDetailFragment.OnImageClickListener) context;
+            }
+        } catch (ClassCastException e) {
+            throw new ClassCastException(context.toString()
+                    + " must implement OnImageClickListener");
+        }
 
     }
 
@@ -135,7 +145,7 @@ public class StepDetailFragment extends Fragment implements ExoPlayer.EventListe
                 @Override
                 public void onClick(View view) {
 //                startActivity(intent);
-                    if(mListIndex + 1 > mSteps.size())
+                    if(mListIndex + 1 < mSteps.size())
                     {
                         mListIndex+=1;
                         mCallback.onImageSelected(mListIndex);
@@ -150,8 +160,9 @@ public class StepDetailFragment extends Fragment implements ExoPlayer.EventListe
                 @Override
                 public void onClick(View view) {
 //                startActivity(intent);
-                    if(mListIndex -1 > 0)
+                    if(mListIndex -1 >= 0)
                     {
+                        mListIndex-=1;
                         mCallback.onImageSelected(mListIndex);
                     }
 
