@@ -21,6 +21,7 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.support.v4.app.FragmentManager;
 import android.support.v7.app.AppCompatActivity;
+import android.view.KeyEvent;
 import android.view.View;
 import android.widget.Button;
 
@@ -59,7 +60,10 @@ public class StepDetailActivity extends AppCompatActivity implements StepDetailF
                 mStepListFragment.setListIndex(selectedIndex);
                 mFragmentManager.beginTransaction()
                         .add(R.id.master_detail_step_fragment, mStepListFragment)
+                        // Add this transaction to the back stack
+                        .addToBackStack(null)
                         .commit();
+
 
 
             }
@@ -77,11 +81,16 @@ public class StepDetailActivity extends AppCompatActivity implements StepDetailF
                 .commit();
     }
     @Override
-    public void onBackPressed() {
-        Intent data = new Intent();
-        // add data to Intent
-        data.putExtra(DetailActivity.RECEIPT_DATA,mReceipt);
-        setResult(Activity.RESULT_OK, data);
-        super.onBackPressed();
+    public void onBackPressed()
+    {
+        if (getSupportFragmentManager().getBackStackEntryCount() == 1){
+            finish();
+        }else {
+            final Intent intent = new Intent(this, DetailActivity.class);
+            intent.putExtra(DetailActivity.RECEIPT_DATA, mReceipt);
+            setResult(RESULT_OK, intent);
+        }
+
     }
+
 }

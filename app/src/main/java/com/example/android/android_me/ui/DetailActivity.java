@@ -41,40 +41,45 @@ public class DetailActivity extends AppCompatActivity implements StepListFragmen
 
         if(savedInstanceState == null) {
 
-            if(getIntent().getExtras().getSerializable(RECEIPT_DATA) != null) {
+            if(getIntent().getExtras() != null && getIntent().getExtras().getSerializable(RECEIPT_DATA) != null) {
                 mReceipt = (Receipt) getIntent().getSerializableExtra(RECEIPT_DATA);
+            }else{
+
             }
 
         }else
         {
             mReceipt = (Receipt) savedInstanceState.getSerializable(RECEIPT_DATA);
         }
+        if(mReceipt != null) {
+            ReceiptNameCardFragment headFragment = new ReceiptNameCardFragment();
 
-        ReceiptNameCardFragment headFragment = new ReceiptNameCardFragment();
+            ArrayList<String> allTitles = new ArrayList<String>();
+            ArrayList<Step> steps = mReceipt.getSteps();
+            if(steps != null){
+                for (int i = 0; i < steps.size(); i++) {
+                    allTitles.add(steps.get(i).getShortDescription());
+                }
+                FragmentManager fragmentManager = getSupportFragmentManager();
 
-        ArrayList<String> allTitles =new ArrayList<String>();
-        ArrayList<Step> steps =  mReceipt.getSteps();
-        for (int i =0;i < steps.size(); i++)
-        {
-            allTitles.add(steps.get(i).getShortDescription());
+                if (findViewById(R.id.android_me_linear_layout) != null) {
+                    mTwoPane = true;
+
+
+                    mStepDetailFragment = new StepDetailFragment();
+                    mStepDetailFragment.setData(steps);
+                    mStepDetailFragment.setListIndex(selectedIndex);
+                    fragmentManager.beginTransaction()
+                            .add(R.id.master_detail_step_fragment, mStepDetailFragment)
+                            .commit();
+                }
+                StepListFragment stepListFragment = new StepListFragment();
+                fragmentManager.beginTransaction()
+                        .add(R.id.master_list_step_fragment, stepListFragment)
+                        .commit();
+            }
+
         }
-        FragmentManager fragmentManager = getSupportFragmentManager();
-
-        if(findViewById(R.id.android_me_linear_layout) != null) {
-            mTwoPane = true;
-
-
-            mStepDetailFragment = new StepDetailFragment();
-            mStepDetailFragment.setData(steps);
-            mStepDetailFragment.setListIndex(selectedIndex);
-            fragmentManager.beginTransaction()
-                    .add(R.id.master_detail_step_fragment, mStepDetailFragment)
-                    .commit();
-        }
-        StepListFragment stepListFragment = new StepListFragment();
-        fragmentManager.beginTransaction()
-                .add(R.id.master_list_step_fragment, stepListFragment)
-                .commit();
 
 
     }

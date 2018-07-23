@@ -23,6 +23,7 @@ import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.media.session.MediaSessionCompat;
 import android.support.v4.media.session.PlaybackStateCompat;
+import android.view.KeyEvent;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -139,7 +140,16 @@ public class StepDetailFragment extends Fragment implements ExoPlayer.EventListe
             Button nextBtn = (Button) rootView.findViewById(R.id.next_button);
             nextBtn.setVisibility(View.GONE);
         }else{
-
+            rootView.setFocusableInTouchMode(true);
+            rootView.setOnKeyListener( new View.OnKeyListener(){
+                @Override
+                public boolean onKey( View v, int keyCode, KeyEvent event ){
+                    if( keyCode == KeyEvent.KEYCODE_BACK ){
+                        return true;
+                    }
+                    return false;
+                }
+            } );
             Button nextButton = (Button) rootView.findViewById(R.id.next_button);
             nextButton.setOnClickListener(new View.OnClickListener() {
                 @Override
@@ -347,6 +357,9 @@ public class StepDetailFragment extends Fragment implements ExoPlayer.EventListe
     public void onSaveInstanceState(Bundle currentState) {
         currentState.putSerializable(STEP_ID_LIST, mSteps);
         currentState.putInt(LIST_INDEX, mListIndex);
+    }
+    public boolean onBackPressed() {
+        return false;
     }
 
 
