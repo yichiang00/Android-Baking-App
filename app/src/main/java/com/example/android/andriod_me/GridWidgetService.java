@@ -16,6 +16,7 @@ package com.example.android.andriod_me;
 * limitations under the License.
 */
 
+import android.appwidget.AppWidgetManager;
 import android.content.Context;
 import android.content.Intent;
 import android.database.Cursor;
@@ -36,60 +37,33 @@ import java.util.ArrayList;
 
 
 public class GridWidgetService extends RemoteViewsService {
+    GridRemoteViewsFactory mGridRemoteViewsFactory;
     @Override
     public RemoteViewsFactory onGetViewFactory(Intent intent) {
-        return new GridRemoteViewsFactory(this.getApplicationContext());
+        mGridRemoteViewsFactory = new GridRemoteViewsFactory(this.getApplicationContext());
+        return mGridRemoteViewsFactory;
     }
+
 }
 
 class GridRemoteViewsFactory implements RemoteViewsService.RemoteViewsFactory {
 
     Context mContext;
-    Cursor mCursor;
-//    RemoteViews mViews;
     ArrayList<Receipt> mReceipts = new ArrayList<Receipt>();
     public GridRemoteViewsFactory(Context applicationContext) {
         mContext = applicationContext;
+//        mReceipts = rReceipts;
 
     }
 
     @Override
     public void onCreate() {
-
+        methodThatStartsTheAsyncTask();
     }
 
     //called on start and when notifyAppWidgetViewDataChanged is called
     @Override
     public void onDataSetChanged() {
-        methodThatStartsTheAsyncTask();
-
-    }
-
-    @Override
-    public void onDestroy() {
-        mCursor.close();
-    }
-
-    @Override
-    public int getCount() {
-        if (mCursor == null) return 0;
-        return mCursor.getCount();
-    }
-
-    /**
-     * This method acts like the onBindViewHolder method in an Adapter
-     *
-     * @param position The current position of the item in the GridView to be displayed
-     * @return The RemoteViews object to display for the provided postion
-     */
-    @Override
-    public RemoteViews getViewAt(int position) {
-
-        RemoteViews views = new RemoteViews(mContext.getPackageName(), R.layout.receipt_widget);
-        views.setTextViewText(R.id.recept_widget_title, mReceipts.get(position).getName());
-
-
-        return views;
 
     }
     /* Skipping most code and I will only show you the most essential. */
@@ -116,13 +90,42 @@ class GridRemoteViewsFactory implements RemoteViewsService.RemoteViewsFactory {
         {
             r = new ArrayList<Receipt>();
         }
-        mReceipts=r;
+        mReceipts = r;
+        this.onDataSetChanged();
+    }
+    @Override
+    public void onDestroy() {
 
     }
 
-    public interface FragmentCallback {
-        public void onTaskDone(ArrayList<Receipt> r);
+    @Override
+    public int getCount() {
+        if(mReceipts != null){
+            return mReceipts.size();
+        }else{
+            return 0;
+        }
     }
+
+    /**
+     * This method acts like the onBindViewHolder method in an Adapter
+     *
+     * @param position The current position of the item in the GridView to be displayed
+     * @return The RemoteViews object to display for the provided postion
+     */
+    @Override
+    public RemoteViews getViewAt(int position) {
+
+        RemoteViews views = new RemoteViews(mContext.getPackageName(), R.layout.receipt_widget);
+        views.setTextViewText(R.id.recept_widget_title, mReceipts.get(position).getName());
+
+
+        return views;
+
+    }
+
+
+
 
     @Override
     public RemoteViews getLoadingView() {

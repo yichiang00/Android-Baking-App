@@ -20,6 +20,7 @@ import android.content.Context;
 import android.net.Uri;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
+import android.support.v4.app.FragmentManager;
 import android.support.v4.media.session.MediaSessionCompat;
 import android.support.v4.media.session.PlaybackStateCompat;
 import android.view.LayoutInflater;
@@ -81,9 +82,14 @@ public class StepDetailFragment extends Fragment implements ExoPlayer.EventListe
     private boolean shouldAutoPlay;
     private BandwidthMeter bandwidthMeter;
     View rootView;
-//    private PlaybackStateCompat.Builder mStateBuilder;
 
-//    private static MediaSessionCompat mMediaSession;
+    // Define a new interface OnImageClickListener that triggers a callback in the host activity
+    StepDetailFragment.OnImageClickListener mCallback;
+
+    // OnImageClickListener interface, calls a method in the host activity named onImageSelected
+    public interface OnImageClickListener {
+        void onImageSelected(int position);
+    }
 
     ArrayList<Step> mSteps;
     Integer mListIndex = 0;
@@ -122,6 +128,35 @@ public class StepDetailFragment extends Fragment implements ExoPlayer.EventListe
             prevBtn.setVisibility(View.GONE);
             Button nextBtn = (Button) rootView.findViewById(R.id.next_button);
             nextBtn.setVisibility(View.GONE);
+        }else{
+
+            Button nextButton = (Button) rootView.findViewById(R.id.next_button);
+            nextButton.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View view) {
+//                startActivity(intent);
+                    if(mListIndex + 1 > mSteps.size())
+                    {
+                        mListIndex+=1;
+                        mCallback.onImageSelected(mListIndex);
+                    }
+
+                }
+            });
+
+
+            Button prevButton = (Button) rootView.findViewById(R.id.prev_button);
+            prevButton.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View view) {
+//                startActivity(intent);
+                    if(mListIndex -1 > 0)
+                    {
+                        mCallback.onImageSelected(mListIndex);
+                    }
+
+                }
+            });
         }
 
         if(savedInstanceState != null) {

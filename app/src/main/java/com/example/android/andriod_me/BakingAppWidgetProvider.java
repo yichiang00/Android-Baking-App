@@ -18,20 +18,19 @@ public class BakingAppWidgetProvider extends AppWidgetProvider {
     static void updateAppWidget(Context context, AppWidgetManager appWidgetManager,
                                 int appWidgetId) {
 
-//        CharSequence widgetText = context.getString(R.string.appwidget_text);
-        // Construct the RemoteViews object
-        RemoteViews views = new RemoteViews(context.getPackageName(), R.layout.baking_app_widget_provider);
-        views.setTextViewText(R.id.appwidget_text, "It was a simple text");
-        getReceiptGridRemoteView(context);
-        // Instruct the widget manager to update the widget
-        appWidgetManager.updateAppWidget(appWidgetId, views);
+
+//        RemoteViews views = new RemoteViews(context.getPackageName(), R.layout.baking_app_widget_provider);
+//        views.setTextViewText(R.id.appwidget_text, "It was a simple text");
+        RemoteViews rv= getReceiptGridRemoteView(context);
+        appWidgetManager.updateAppWidget(appWidgetId, rv);
     }
+
+
+
     private static RemoteViews getReceiptGridRemoteView(Context context) {
         RemoteViews views = new RemoteViews(context.getPackageName(), R.layout.widget_grid_view);
-        // Set the GridWidgetService intent to act as the adapter for the GridView
         Intent intent = new Intent(context, GridWidgetService.class);
         views.setRemoteAdapter(R.id.widget_grid_view, intent);
-        // Set the PlantDetailActivity intent to launch when clicked
         Intent appIntent = new Intent(context, DetailActivity.class);
         PendingIntent appPendingIntent = PendingIntent.getActivity(context, 0, appIntent, PendingIntent.FLAG_UPDATE_CURRENT);
         views.setPendingIntentTemplate(R.id.widget_grid_view, appPendingIntent);
