@@ -85,11 +85,11 @@ public class StepDetailFragment extends Fragment implements ExoPlayer.EventListe
     View rootView;
 
     // Define a new interface OnImageClickListener that triggers a callback in the host activity
-    StepDetailFragment.OnImageClickListener mCallback;
+    StepDetailFragment.OnButtonClickListener mCallback;
 
     // OnImageClickListener interface, calls a method in the host activity named onImageSelected
-    public interface OnImageClickListener {
-        void onImageSelected(int position);
+    public interface OnButtonClickListener {
+        void onButtonClicked(int position);
     }
 
     ArrayList<Step> mSteps;
@@ -104,7 +104,7 @@ public class StepDetailFragment extends Fragment implements ExoPlayer.EventListe
         // If not, it throws an exception
         try {
             if(!mTwoPane){
-                mCallback = (StepDetailFragment.OnImageClickListener) context;
+                mCallback = (StepDetailFragment.OnButtonClickListener) context;
             }
         } catch (ClassCastException e) {
             throw new ClassCastException(context.toString()
@@ -158,7 +158,7 @@ public class StepDetailFragment extends Fragment implements ExoPlayer.EventListe
                     if(mListIndex + 1 < mSteps.size())
                     {
                         mListIndex+=1;
-                        mCallback.onImageSelected(mListIndex);
+                        mCallback.onButtonClicked(mListIndex);
                     }
 
                 }
@@ -173,7 +173,7 @@ public class StepDetailFragment extends Fragment implements ExoPlayer.EventListe
                     if(mListIndex -1 >= 0)
                     {
                         mListIndex-=1;
-                        mCallback.onImageSelected(mListIndex);
+                        mCallback.onButtonClicked(mListIndex);
                     }
 
                 }

@@ -31,7 +31,7 @@ import com.example.android.android_me.model.Step;
 
 import java.util.ArrayList;
 
-public class StepDetailActivity extends AppCompatActivity implements StepDetailFragment.OnImageClickListener{
+public class StepDetailActivity extends AppCompatActivity implements StepDetailFragment.OnButtonClickListener{
     public static final String STEP_DATA = "sStep";
     public static final String INDEX_STEP_DATA = "sStep_index";
     private ArrayList<Step> steps = new ArrayList<Step>();
@@ -71,7 +71,7 @@ public class StepDetailActivity extends AppCompatActivity implements StepDetailF
 
 
     }
-    public void onImageSelected(int position) {
+    public void onButtonClicked(int position) {
         selectedIndex = position;
         mStepListFragment = new StepDetailFragment();
         mStepListFragment.setData(steps);

@@ -37,8 +37,9 @@ public class StepListFragment extends Fragment {
 
     StepListFragment.OnImageClickListener mCallback;
     private GridView mGridView;
-    public ListView mListView;
+    public RecyclerView mRecyclerView;
     public StepListAdapter mAdapter;
+    public LinearLayoutManager mLayoutManager;
     ArrayList<Step> steps =  new ArrayList<Step>();
     public interface OnImageClickListener {
         void onImageSelected(int position);
@@ -65,20 +66,27 @@ public class StepListFragment extends Fragment {
                              Bundle savedInstanceState) {
 
         final View rootView = inflater.inflate(R.layout.fragment_master_step_list, container, false);
-        mListView = (ListView) rootView.findViewById(R.id.images_grid_view);
+        mRecyclerView = (RecyclerView) rootView.findViewById(R.id.images_grid_view);
         DetailActivity activity = (DetailActivity) getActivity();
         steps = activity.getMyData();
-        mAdapter = new StepListAdapter(getContext(), steps);
+        mAdapter = new StepListAdapter(mCallback);
+        mLayoutManager =
+                new LinearLayoutManager(getActivity());
+        mRecyclerView.setLayoutManager(mLayoutManager);
 
         // Set the adapter on the GridView
-        mListView.setAdapter(mAdapter);
+        mRecyclerView.setAdapter(mAdapter);
+        mAdapter.setItems(steps);
+        mAdapter.notifyDataSetChanged();
 
-        mListView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
-            @Override
-            public void onItemClick(AdapterView<?> adapterView, View view, int position, long l) {
-                mCallback.onImageSelected(position);
-            }
-        });
+
+//        mRecyclerView.setOnClickListener(new View.OnClickListener() {
+//            @Override
+//            public void onClick(View view) {
+//                int clickedPosition = view.get();
+//
+//            }
+//        });
 
         return rootView;
     }

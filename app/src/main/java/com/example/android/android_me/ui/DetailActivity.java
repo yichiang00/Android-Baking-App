@@ -28,7 +28,7 @@ import com.example.android.android_me.model.Receipt;
 import com.example.android.android_me.model.Step;
 import java.util.ArrayList;
 
-public class DetailActivity extends AppCompatActivity implements StepListFragment.OnImageClickListener{
+public class DetailActivity extends AppCompatActivity implements StepListFragment.OnImageClickListener, StepDetailFragment.OnButtonClickListener{
     public static final String RECEIPT_DATA = "cReceipt";
     private Receipt mReceipt = new Receipt();
     private Integer selectedIndex = 0;
@@ -94,6 +94,9 @@ public class DetailActivity extends AppCompatActivity implements StepListFragmen
         return mReceipt.getSteps();
     }
     public void onImageSelected(int position) {
+        ChangeViewByPosition(position);
+    }
+    public void ChangeViewByPosition(int position){
         if (mTwoPane) {
 
             mStepDetailFragment = new StepDetailFragment();
@@ -112,6 +115,9 @@ public class DetailActivity extends AppCompatActivity implements StepListFragmen
             startActivity(intent);
 
         }
+    }
+    public void onButtonClicked(int position) {
+        ChangeViewByPosition(position);
     }
 
 
