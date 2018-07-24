@@ -57,7 +57,11 @@ public class DetailActivity extends AppCompatActivity implements StepListFragmen
             if(getIntent().getExtras() != null && getIntent().getExtras().getSerializable(RECEIPT_DATA) != null) {
                 mReceipt = (Receipt) getIntent().getSerializableExtra(RECEIPT_DATA);
             }else{
-
+                String receiptJson = PreferenceManager.getDefaultSharedPreferences(this).getString("favReceipt", "");
+                if(receiptJson != null && receiptJson.length() > 0){
+                    Gson gson = new Gson();
+                    mReceipt = gson.fromJson(receiptJson, Receipt.class);
+                }
             }
 
         }else
