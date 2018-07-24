@@ -22,6 +22,7 @@ import android.content.Intent;
 import android.database.Cursor;
 import android.net.Uri;
 import android.os.Bundle;
+import android.preference.PreferenceManager;
 import android.view.View;
 import android.widget.RemoteViews;
 import android.widget.RemoteViewsService;
@@ -31,6 +32,7 @@ import com.example.android.android_me.data.ReceiptQueryTask;
 import com.example.android.android_me.model.Receipt;
 import com.example.android.android_me.ui.MasterListFragment;
 import com.example.android.android_me.utilities.NetworkUtils;
+import com.google.gson.Gson;
 
 import java.net.URL;
 import java.util.ArrayList;
@@ -49,50 +51,32 @@ public class GridWidgetService extends RemoteViewsService {
 class GridRemoteViewsFactory implements RemoteViewsService.RemoteViewsFactory {
 
     Context mContext;
-    ArrayList<Receipt> mReceipts = new ArrayList<Receipt>();
+    Receipt mReceipt;
     public GridRemoteViewsFactory(Context applicationContext) {
         mContext = applicationContext;
 //        mReceipts = rReceipts;
-
+        String receiptJson="";
+        receiptJson = PreferenceManager.getDefaultSharedPreferences(mContext).getString(Integer.toString(R.string.prf_receipt), receiptJson);
+        Gson gson = new Gson();
+        mReceipt = gson.fromJson(receiptJson, Receipt.class);
     }
 
     @Override
     public void onCreate() {
-        methodThatStartsTheAsyncTask();
+
     }
 
     //called on start and when notifyAppWidgetViewDataChanged is called
     @Override
     public void onDataSetChanged() {
 
-    }
-    /* Skipping most code and I will only show you the most essential. */
-    private void methodThatStartsTheAsyncTask()
-    {
-        URL searchURL = NetworkUtils.buildUrl(NetworkUtils.RECEIPT_URL);
-        ReceiptQueryTask testAsyncTask = new ReceiptQueryTask(new MasterListFragment.FragmentCallback() {
-
-            @Override
-            public void onTaskDone(ArrayList<Receipt> r) {
-                methodThatDoesSomethingWhenTaskIsDone(r);
-
-            }
-        });
-
-        testAsyncTask.execute(searchURL);
-
+        String receiptJson="";
+        receiptJson = PreferenceManager.getDefaultSharedPreferences(mContext).getString(Integer.toString(R.string.prf_receipt), receiptJson);
+        Gson gson = new Gson();
+        mReceipt = gson.fromJson(receiptJson, Receipt.class);
     }
 
-    private void methodThatDoesSomethingWhenTaskIsDone(ArrayList<Receipt> r)
-    {
-        /* Magic! */
-        if(r == null)
-        {
-            r = new ArrayList<Receipt>();
-        }
-        mReceipts = r;
-        this.onDataSetChanged();
-    }
+
     @Override
     public void onDestroy() {
 
@@ -100,8 +84,8 @@ class GridRemoteViewsFactory implements RemoteViewsService.RemoteViewsFactory {
 
     @Override
     public int getCount() {
-        if(mReceipts != null){
-            return mReceipts.size();
+        if(mReceipt != null){
+            return mReceipt.getIngredients().size();
         }else{
             return 0;
         }
@@ -116,8 +100,10 @@ class GridRemoteViewsFactory implements RemoteViewsService.RemoteViewsFactory {
     @Override
     public RemoteViews getViewAt(int position) {
 
-        RemoteViews views = new RemoteViews(mContext.getPackageName(), R.layout.receipt_widget);
-        views.setTextViewText(R.id.recept_widget_title, mReceipts.get(position).getName());
+        RemoteViews views = new RemoteViews(mContext.getPackageName(), R.layout.fragment_detail_ingredients_widget);
+        views.setTextViewText(R.id.receipt_ingredient_name, mReceipt.getIngredients().get(position).getIngredient());
+        views.setTextViewText(R.id.receipt_ingredient_quantity, Float.toString(mReceipt.getIngredients().get(position).getQuantity()));
+        views.setTextViewText(R.id.receipt_ingredient_measure, mReceipt.getIngredients().get(position).getMeasure());
 
 
         return views;

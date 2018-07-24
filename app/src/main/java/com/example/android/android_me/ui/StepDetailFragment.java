@@ -357,6 +357,7 @@ public class StepDetailFragment extends Fragment implements ExoPlayer.EventListe
     public void onSaveInstanceState(Bundle currentState) {
         currentState.putSerializable(STEP_ID_LIST, mSteps);
         currentState.putInt(LIST_INDEX, mListIndex);
+        mExoPlayer.getPlayWhenReady();
     }
     public boolean onBackPressed() {
         return false;

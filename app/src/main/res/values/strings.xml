@@ -1,7 +1,8 @@
 <resources>
     <string name="app_name">Baking APP</string>
-    <string name="appwidget_text">Baking_EXAMPLE</string>
+    <string name="appwidget_text">TEST</string>
     <string name="add_widget">Add widget</string>
     <string name="empty_view_text">Garden is empty!</string>
+    <string name="prf_receipt">favReceipt</string>
 
 </resources>
