@@ -24,16 +24,18 @@ import android.view.View;
 import android.widget.Button;
 
 import com.example.android.android_me.R;
+import com.example.android.android_me.model.Ingredient;
 import com.example.android.android_me.model.Receipt;
 import com.example.android.android_me.model.Step;
 import java.util.ArrayList;
 
-public class DetailActivity extends AppCompatActivity implements StepListFragment.OnImageClickListener, StepDetailFragment.OnButtonClickListener{
+public class DetailActivity extends AppCompatActivity implements StepListFragment.OnImageClickListener, StepDetailFragment.OnButtonClickListener, StepListFragment.OnIngredientsBtnClickerListener{
     public static final String RECEIPT_DATA = "cReceipt";
     private Receipt mReceipt = new Receipt();
     private Integer selectedIndex = 0;
     private boolean mTwoPane;
     StepDetailFragment mStepDetailFragment;
+    IngredientsDetailFragment mIngredientsDetailFragment;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -65,14 +67,19 @@ public class DetailActivity extends AppCompatActivity implements StepListFragmen
                 if (findViewById(R.id.android_me_linear_layout) != null) {
                     mTwoPane = true;
 
-
-                    mStepDetailFragment = new StepDetailFragment();
-                    mStepDetailFragment.setData(steps);
-                    mStepDetailFragment.setListIndex(selectedIndex);
+                    mIngredientsDetailFragment = new IngredientsDetailFragment();
                     fragmentManager.beginTransaction()
-                            .add(R.id.master_detail_step_fragment, mStepDetailFragment)
+                            .add(R.id.master_detail_indgedient_fragment, mIngredientsDetailFragment)
                             .commit();
+
+//                    mStepDetailFragment = new StepDetailFragment();
+//                    mStepDetailFragment.setData(steps);
+//                    mStepDetailFragment.setListIndex(selectedIndex);
+//                    fragmentManager.beginTransaction()
+//                            .add(R.id.master_detail_step_fragment, mStepDetailFragment)
+//                            .commit();
                 }
+
                 StepListFragment stepListFragment = new StepListFragment();
                 fragmentManager.beginTransaction()
                         .add(R.id.master_list_step_fragment, stepListFragment)
@@ -93,17 +100,20 @@ public class DetailActivity extends AppCompatActivity implements StepListFragmen
     public ArrayList<Step> getMyData() {
         return mReceipt.getSteps();
     }
+    public ArrayList<Ingredient> getIngredients() {
+        return mReceipt.getIngredients();
+    }
     public void onImageSelected(int position) {
         ChangeViewByPosition(position);
     }
     public void ChangeViewByPosition(int position){
+        selectedIndex = position;
         if (mTwoPane) {
-
             mStepDetailFragment = new StepDetailFragment();
             mStepDetailFragment.setData(mReceipt.getSteps());
-            selectedIndex = position;
             mStepDetailFragment.setListIndex(selectedIndex);
             getSupportFragmentManager().beginTransaction()
+                    .remove(mIngredientsDetailFragment)
                     .replace(R.id.master_detail_step_fragment, mStepDetailFragment)
                     .commit();
 
@@ -111,13 +121,35 @@ public class DetailActivity extends AppCompatActivity implements StepListFragmen
             final Intent intent = new Intent(this, StepDetailActivity.class);
             intent.putExtra(RECEIPT_DATA, mReceipt);
             intent.putExtra(StepDetailActivity.STEP_DATA, mReceipt.getSteps());
-            intent.putExtra(StepDetailActivity.INDEX_STEP_DATA, position);
+            intent.putExtra(StepDetailActivity.INDEX_STEP_DATA, selectedIndex);
+            intent.putExtra(StepDetailActivity.INGREDIENT_DATA, mReceipt.getIngredients());
+            intent.putExtra(StepDetailActivity.IS_INGREDIENT, false);
             startActivity(intent);
 
         }
     }
     public void onButtonClicked(int position) {
         ChangeViewByPosition(position);
+    }
+
+    public void onIngredientBtnClicked() {
+        if (mTwoPane) {
+            mIngredientsDetailFragment = new IngredientsDetailFragment();
+            getSupportFragmentManager().beginTransaction()
+                    .remove(mStepDetailFragment)
+                    .add(R.id.master_detail_indgedient_fragment, mIngredientsDetailFragment)
+                    .commit();
+
+        } else {
+            final Intent intent = new Intent(this, StepDetailActivity.class);
+            intent.putExtra(RECEIPT_DATA, mReceipt);
+            intent.putExtra(StepDetailActivity.STEP_DATA, mReceipt.getSteps());
+            intent.putExtra(StepDetailActivity.INDEX_STEP_DATA, selectedIndex);
+            intent.putExtra(StepDetailActivity.INGREDIENT_DATA, mReceipt.getIngredients());
+            intent.putExtra(StepDetailActivity.IS_INGREDIENT, true);
+            startActivity(intent);
+
+        }
     }
 
 

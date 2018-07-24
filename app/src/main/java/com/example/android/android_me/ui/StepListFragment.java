@@ -25,6 +25,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.AdapterView;
+import android.widget.Button;
 import android.widget.GridView;
 import android.widget.ListView;
 
@@ -36,6 +37,7 @@ import java.util.ArrayList;
 public class StepListFragment extends Fragment {
 
     StepListFragment.OnImageClickListener mCallback;
+    StepListFragment.OnIngredientsBtnClickerListener mIngredientsBtnmCallback;
     private GridView mGridView;
     public RecyclerView mRecyclerView;
     public StepListAdapter mAdapter;
@@ -44,6 +46,9 @@ public class StepListFragment extends Fragment {
     public interface OnImageClickListener {
         void onImageSelected(int position);
     }
+    public interface OnIngredientsBtnClickerListener {
+        void onIngredientBtnClicked();
+    }
 
     @Override
     public void onAttach(Context context) {
@@ -51,6 +56,7 @@ public class StepListFragment extends Fragment {
 
         try {
             mCallback = (OnImageClickListener) context;
+            mIngredientsBtnmCallback = (OnIngredientsBtnClickerListener) context;
         } catch (ClassCastException e) {
             throw new ClassCastException(context.toString()
                     + " must implement OnImageClickListener");
@@ -80,13 +86,16 @@ public class StepListFragment extends Fragment {
         mAdapter.notifyDataSetChanged();
 
 
-//        mRecyclerView.setOnClickListener(new View.OnClickListener() {
-//            @Override
-//            public void onClick(View view) {
-//                int clickedPosition = view.get();
-//
-//            }
-//        });
+        Button IngredientsBtn = (Button) rootView.findViewById(R.id.receipt_ingredients);
+        IngredientsBtn.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                mIngredientsBtnmCallback.onIngredientBtnClicked();
+
+
+            }
+        });
+
 
         return rootView;
     }

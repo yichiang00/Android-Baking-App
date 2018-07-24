@@ -43,6 +43,10 @@ This layout is a two-pane layout for the master/detail flow.
         android:layout_height="match_parent"
         android:scaleType="centerInside"/>
 
+    <FrameLayout android:id="@+id/master_detail_indgedient_fragment"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:scaleType="centerInside"/>
 
 
 </LinearLayout>

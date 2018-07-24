@@ -7,6 +7,11 @@
     android:orientation="vertical"
     android:padding="2dp">
 
+
+    <!--<FrameLayout android:id="@+id/master_list_indgredient_fragment"-->
+        <!--android:layout_width="match_parent"-->
+        <!--android:layout_height="match_parent"/>-->
+
     <FrameLayout android:id="@+id/master_list_step_fragment"
         android:layout_width="match_parent"
         android:layout_height="match_parent"/>
