@@ -19,15 +19,17 @@ package com.example.android.android_me;
 
 import android.content.Intent;
 import android.support.test.InstrumentationRegistry;
-import android.support.test.espresso.contrib.RecyclerViewActions;
 import android.support.test.rule.ActivityTestRule;
 import android.support.test.runner.AndroidJUnit4;
 import android.support.v4.app.FragmentManager;
 
+import com.example.android.android_me.model.Ingredient;
 import com.example.android.android_me.model.Receipt;
 import com.example.android.android_me.model.Step;
 import com.example.android.android_me.ui.DetailActivity;
-import com.example.android.android_me.ui.MainActivity;
+import com.example.android.android_me.ui.IngredientsDetailFragment;
+import com.example.android.android_me.ui.StepDetailActivity;
+import com.example.android.android_me.ui.StepDetailFragment;
 import com.example.android.android_me.ui.StepListFragment;
 
 import org.junit.Before;
@@ -37,14 +39,10 @@ import org.junit.runner.RunWith;
 
 import java.util.ArrayList;
 
-import static android.support.test.espresso.Espresso.onData;
 import static android.support.test.espresso.Espresso.onView;
-import static android.support.test.espresso.assertion.ViewAssertions.doesNotExist;
 import static android.support.test.espresso.assertion.ViewAssertions.matches;
 import static android.support.test.espresso.matcher.ViewMatchers.isDisplayed;
 import static android.support.test.espresso.matcher.ViewMatchers.withId;
-import static android.support.test.espresso.matcher.ViewMatchers.withText;
-import static org.hamcrest.Matchers.anything;
 
 /**
  * This test demos a user clicking the decrement button and verifying that it properly decrease
@@ -53,11 +51,11 @@ import static org.hamcrest.Matchers.anything;
 //https://android.jlelse.eu/the-basics-of-android-espresso-testing-activities-fragments-7a8bfbc16dc5
 
 @RunWith(AndroidJUnit4.class)
-public class DetailActivityBasicTest {
+public class StepDetailActivityBasicTest {
 
     @Rule
-    public ActivityTestRule<DetailActivity> mActivityTestRule =
-            new ActivityTestRule<DetailActivity>(DetailActivity.class){
+    public ActivityTestRule<StepDetailActivity> mActivityTestRule =
+            new ActivityTestRule<StepDetailActivity>(StepDetailActivity.class){
                 @Override
                 protected Intent getActivityIntent() {
                     //load intent first
@@ -68,6 +66,14 @@ public class DetailActivityBasicTest {
                     Step step1 = new Step();
                     step1.setShortDescription("Step 1 shortDescription");
                     step1.setDescription("Step 1 description");
+
+                    ArrayList<Ingredient> ingredients = new ArrayList<>();
+                    Ingredient ingredient1 = new Ingredient();
+                    ingredient1.setIngredient("ingredient1");
+                    ingredient1.setMeasure("C");
+                    ingredient1.setQuantity(2);
+                    ingredients.add(ingredient1);
+                    testReceipt.setIngredients(ingredients);
                     steps.add(step1);
 
                     Step step2 = new Step();
@@ -75,8 +81,14 @@ public class DetailActivityBasicTest {
                     step2.setDescription("Step 2 description");
                     steps.add(step2);
                     testReceipt.setSteps(steps);
-                    Intent intent = new Intent(InstrumentationRegistry.getTargetContext(), DetailActivity.class);
+
+
+                    Intent intent = new Intent(InstrumentationRegistry.getTargetContext(), StepDetailActivity.class);
                     intent.putExtra(DetailActivity.RECEIPT_DATA, testReceipt);
+                    intent.putExtra(StepDetailActivity.STEP_DATA, testReceipt.getSteps());
+                    intent.putExtra(StepDetailActivity.INDEX_STEP_DATA, 0);
+                    intent.putExtra(StepDetailActivity.INGREDIENT_DATA, testReceipt.getIngredients());
+                    intent.putExtra(StepDetailActivity.IS_INGREDIENT, true);
                     return intent;
                 }
 
@@ -85,10 +97,12 @@ public class DetailActivityBasicTest {
     public void init(){
         mActivityTestRule.getActivity()
                 .getSupportFragmentManager().beginTransaction();
+        loadIngredientsDetailFragment();
+
     }
     @Before
     public void setup() {
-        loadMasterListFragment();
+//        loadStepDetailFragment();
 
     }
     public void loadIntent()
@@ -97,18 +111,26 @@ public class DetailActivityBasicTest {
     }
     @Test
     public void clickFragmenetExist() {
-        onView(withId(R.id.master_list_step_fragment)).check(matches(isDisplayed()));
+        onView(withId(R.id.master_detail_step_fragment)).check(matches(isDisplayed()));
 
 
     }
 
 
 
-    public void loadMasterListFragment(){
-        StepListFragment stepListFragment = new StepListFragment();
+    public void loadStepDetailFragment(){
+        StepDetailFragment stepDetailFragment = new StepDetailFragment();
         FragmentManager fragmentManager = mActivityTestRule.getActivity().getSupportFragmentManager();
         fragmentManager.beginTransaction()
-                .add(R.id.master_list_step_fragment, stepListFragment)
+                .add(R.id.master_detail_step_fragment, stepDetailFragment)
+                .commit();
+
+    }
+    public void loadIngredientsDetailFragment(){
+        IngredientsDetailFragment ingredientsDetailFragment = new IngredientsDetailFragment();
+        FragmentManager fragmentManager = mActivityTestRule.getActivity().getSupportFragmentManager();
+        fragmentManager.beginTransaction()
+                .add(R.id.master_detail_step_fragment, ingredientsDetailFragment)
                 .commit();
 
     }

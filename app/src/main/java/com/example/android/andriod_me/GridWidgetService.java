@@ -84,7 +84,7 @@ class GridRemoteViewsFactory implements RemoteViewsService.RemoteViewsFactory {
 
     @Override
     public int getCount() {
-        if(mReceipt != null){
+        if(mReceipt != null && mReceipt.getIngredients() != null){
             return mReceipt.getIngredients().size();
         }else{
             return 0;

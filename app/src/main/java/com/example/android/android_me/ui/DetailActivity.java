@@ -92,6 +92,7 @@ public class DetailActivity extends AppCompatActivity implements StepListFragmen
                     mTwoPane = true;
 
                     mIngredientsDetailFragment = new IngredientsDetailFragment();
+                    mIngredientsDetailFragment.setData(mReceipt.getIngredients());
                     fragmentManager.beginTransaction()
                             .add(R.id.master_detail_indgedient_fragment, mIngredientsDetailFragment)
                             .commit();
@@ -159,6 +160,7 @@ public class DetailActivity extends AppCompatActivity implements StepListFragmen
     public void onIngredientBtnClicked() {
         if (mTwoPane) {
             mIngredientsDetailFragment = new IngredientsDetailFragment();
+            mIngredientsDetailFragment.setData(mReceipt.getIngredients());
             getSupportFragmentManager().beginTransaction()
                     .remove(mStepDetailFragment)
                     .add(R.id.master_detail_indgedient_fragment, mIngredientsDetailFragment)
