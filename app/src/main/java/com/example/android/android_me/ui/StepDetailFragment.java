@@ -76,7 +76,8 @@ public class StepDetailFragment extends Fragment implements ExoPlayer.EventListe
     private static MediaSessionCompat mMediaSession;
     private PlaybackStateCompat.Builder mStateBuilder;
     private boolean mTwoPane;
-
+    private long mMediaPlayerSavedPosition = 0;
+    private boolean mMediaPlayerWhenReady = true;
     private Timeline.Window window;
     private DataSource.Factory mediaDataSourceFactory;
     private DefaultTrackSelector trackSelector;
@@ -86,7 +87,8 @@ public class StepDetailFragment extends Fragment implements ExoPlayer.EventListe
 
     // Define a new interface OnImageClickListener that triggers a callback in the host activity
     StepDetailFragment.OnButtonClickListener mCallback;
-
+    final String MEDIA_PLAYER_POSITION = "pPosition";
+    final String IS_MEDIA_PLAYER_READY = "pReady";
     // OnImageClickListener interface, calls a method in the host activity named onImageSelected
     public interface OnButtonClickListener {
         void onButtonClicked(int position);
@@ -183,6 +185,8 @@ public class StepDetailFragment extends Fragment implements ExoPlayer.EventListe
         if(savedInstanceState != null) {
             mSteps = (ArrayList<Step>) savedInstanceState.getSerializable(STEP_ID_LIST);
             mListIndex = savedInstanceState.getInt(LIST_INDEX);
+            mMediaPlayerSavedPosition = savedInstanceState.getLong(MEDIA_PLAYER_POSITION);
+            mMediaPlayerWhenReady = savedInstanceState.getBoolean(IS_MEDIA_PLAYER_READY);
         }else{
 
         }
@@ -250,7 +254,9 @@ public class StepDetailFragment extends Fragment implements ExoPlayer.EventListe
             MediaSource mediaSource = new ExtractorMediaSource(mediaUri, new DefaultDataSourceFactory(
                     getContext(), userAgent), new DefaultExtractorsFactory(), null, null);
             mExoPlayer.prepare(mediaSource);
-            mExoPlayer.setPlayWhenReady(true);
+            mExoPlayer.setPlayWhenReady(mMediaPlayerWhenReady);
+            mExoPlayer.seekTo(mMediaPlayerSavedPosition);
+
         }
     }
 
@@ -353,11 +359,27 @@ public class StepDetailFragment extends Fragment implements ExoPlayer.EventListe
             releasePlayer();
         }
     }
+
+    /*
+    * It is required that you restore the video from the position it has already played and the player's play state.
+        Currently, the video plays from the start when the screen rotates.
+        You can save the played video location and mExoPlayer.getPlayWhenReady() in onSaveInstanceState and then restore the video from that location.
+
+        You can refer this link to save the information.
+    * */
     @Override
     public void onSaveInstanceState(Bundle currentState) {
+        super.onSaveInstanceState(currentState);
         currentState.putSerializable(STEP_ID_LIST, mSteps);
         currentState.putInt(LIST_INDEX, mListIndex);
-        mExoPlayer.getPlayWhenReady();
+        if (mExoPlayer != null) {
+            long mediaPlayerSavedPosition = mExoPlayer.getCurrentPosition();
+            boolean mediaPlayerWhenReady = mExoPlayer.getPlayWhenReady();
+
+            currentState.putLong(MEDIA_PLAYER_POSITION, mediaPlayerSavedPosition);
+            currentState.putBoolean(IS_MEDIA_PLAYER_READY, mediaPlayerWhenReady);
+        }
+
     }
     public boolean onBackPressed() {
         return false;
